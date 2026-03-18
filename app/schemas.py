@@ -19,6 +19,7 @@ class SubmitScoreResponse(BaseModel):
 
 class LeaderboardItem(BaseModel):
     rank: int
+    player_id: str
     display_name: str
     score: int
 
