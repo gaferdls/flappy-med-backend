@@ -3,6 +3,10 @@ from sqlalchemy.orm import Session
 
 from . import models
 
+def sanitize_name(name: str) -> str:
+    if not name:
+        return "Player"
+    return name.strip()[:12]
 
 def register_player(db: Session, player_id: str, display_name: str) -> models.Player:
     player = db.query(models.Player).filter(models.Player.id == player_id).first()

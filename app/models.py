@@ -9,7 +9,7 @@ class Player(Base):
     __tablename__ = "players"
 
     id = Column(String, primary_key=True, index=True)
-    display_name = Column(String, nullable=False)
+    display_name = Column(String(12), nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
     updated_at = Column(
         DateTime,
