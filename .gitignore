@@ -1,5 +1,6 @@
 .venv/
 __pycache__/
 *.pyc
-flappy_med.db
 .env
+flappy_med.db
+.DS_Store
