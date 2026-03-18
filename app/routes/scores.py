@@ -53,30 +53,3 @@ def leaderboard(
 ) -> schemas.LeaderboardResponse:
     items = crud.get_leaderboard(db=db, limit=limit)
     return schemas.LeaderboardResponse(items=items)
-
-from fastapi import APIRouter, Depends, HTTPException, Query
-from sqlalchemy.orm import Session
-
-from .. import crud, models, schemas
-from ..db import get_db
-
-router = APIRouter()
-
-ADMIN_KEY = "secret123"
-
-@router.delete("/player/{player_id}")
-def delete_player_scores(
-    player_id: str,
-    admin_key: str = Query(...),
-    db: Session = Depends(get_db),
-):
-    if admin_key != ADMIN_KEY:
-        raise HTTPException(status_code=403, detail="Forbidden")
-
-    deleted = db.query(models.Score).filter(
-        models.Score.player_id == player_id
-    ).delete()
-
-    db.commit()
-
-    return {"deleted": deleted}
