@@ -23,17 +23,21 @@ def register_player(db: Session, player_id: str, display_name: str) -> models.Pl
 
 
 def create_score(db: Session, player_id: str, score: int) -> int:
-    db_score = models.Score(player_id=player_id, score=score)
-    db.add(db_score)
-    db.commit()
-
     personal_best = (
         db.query(func.max(models.Score.score))
         .filter(models.Score.player_id == player_id)
         .scalar()
     )
 
-    return int(personal_best or 0)
+    current_best = int(personal_best or 0)
+
+    if score > current_best:
+        db_score = models.Score(player_id=player_id, score=score)
+        db.add(db_score)
+        db.commit()
+        return score
+
+    return current_best
 
 
 def get_leaderboard(db: Session, limit: int = 10) -> list[dict]:
