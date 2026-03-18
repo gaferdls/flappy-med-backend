@@ -53,3 +53,16 @@ def leaderboard(
 ) -> schemas.LeaderboardResponse:
     items = crud.get_leaderboard(db=db, limit=limit)
     return schemas.LeaderboardResponse(items=items)
+
+@router.delete("/player/{player_id}")
+def delete_player_scores(
+    player_id: str,
+    db: Session = Depends(get_db),
+):
+    deleted = db.query(models.Score).filter(
+        models.Score.player_id == player_id
+    ).delete()
+
+    db.commit()
+
+    return {"deleted": deleted}
