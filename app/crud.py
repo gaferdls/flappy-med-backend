@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 
 from . import models
 
+
 def register_player(db: Session, player_id: str, display_name: str) -> models.Player:
     player = db.query(models.Player).filter(models.Player.id == player_id).first()
 
@@ -15,6 +16,7 @@ def register_player(db: Session, player_id: str, display_name: str) -> models.Pl
     db.commit()
     db.refresh(player)
     return player
+
 
 def create_score(db: Session, player_id: str, score: int) -> int:
     db_score = models.Score(player_id=player_id, score=score)
