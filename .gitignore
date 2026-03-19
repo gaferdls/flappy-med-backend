@@ -3,4 +3,4 @@ __pycache__/
 *.pyc
 .env
 flappy_med.db
-.DS_Store
+.DS_Storeflappy_med.db
